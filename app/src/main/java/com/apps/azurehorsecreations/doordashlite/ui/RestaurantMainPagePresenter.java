@@ -20,19 +20,21 @@ import retrofit2.http.Query;
  * Created by pattycase on 4/27/18.
  */
 
-public class RestaurantMainScreenPresenter implements RestaurantMainScreenContract.Presenter {
+public class RestaurantMainPagePresenter implements RestaurantMainPageContract.Presenter {
     Retrofit retrofit;
-    RestaurantMainScreenContract.View mView;
+    RestaurantMainPageContract.View mView;
     RestaurantNavigator mNavigator;
 
     @Inject
-    public RestaurantMainScreenPresenter(Retrofit retrofit, RestaurantMainScreenContract.View mView) {
+    public RestaurantMainPagePresenter(Retrofit retrofit, RestaurantMainPageContract.View mView) {
         this.retrofit = retrofit;
         this.mView = mView;
     }
 
     @Override
     public void loadRestaurants() {
+
+        // TODO Get the latitude and longitude
         retrofit.create(RestaurantService.class).getRestaurantList(37.422740,-122.139956).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())

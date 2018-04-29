@@ -18,13 +18,13 @@ import java.util.List;
  * Created by pattycase on 4/27/18.
  */
 
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.ViewHolder> {
+public class RestaurantMainPageAdapter extends RecyclerView.Adapter<RestaurantMainPageAdapter.ViewHolder> {
     private List<Restaurant> mRestaurantList;
     private Handler mHandler;
     private Context mContext;
     private final OnItemClickListener mListener;
 
-    public RestaurantAdapter(Context context, List<Restaurant> restaurants, OnItemClickListener listener) {
+    public RestaurantMainPageAdapter(Context context, List<Restaurant> restaurants, OnItemClickListener listener) {
         this.mContext = context;
         this.mRestaurantList = restaurants;
         this.mListener = listener;
@@ -52,6 +52,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
         holder.statusTextView.setText(status);
         Integer deliveryFee = mRestaurantList.get(position).getDelivery_fee();
         holder.deliveryFeeTextView.setText(deliveryFee.toString());
+        holder.click(mRestaurantList.get(position), mListener);
         Glide.with(mContext).load(mRestaurantList.get(position).getCover_img_url()).into(holder.coverImageView);
     }
 
@@ -87,6 +88,6 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.Vi
     }
 
     public interface OnItemClickListener {
-        void onClick(Restaurant item);
+        void onClick(Restaurant restaurant);
     }
 }

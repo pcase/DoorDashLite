@@ -4,32 +4,39 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.apps.azurehorsecreations.doordashlite.DDLApp;
 import com.apps.azurehorsecreations.doordashlite.R;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
-import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantAdapter;
+import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantMainPageAdapter;
+import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.inject.Inject;
 
-public class MainActivity extends AppCompatActivity implements RestaurantMainScreenContract.View, RestaurantAdapter.OnItemClickListener {
+public class RestaurantMainPageActivity extends AppCompatActivity implements RestaurantMainPageContract.View, RestaurantMainPageAdapter.OnItemClickListener {
     private static final int NUMBER_OF_COLUMNS = 1;
+    TextView mEmptyVIew;
     ListView mListView;
     ArrayList<String> mList;
     RecyclerView mRecyclerView;
     ArrayAdapter<String> mAdapter;
-    RestaurantAdapter mRestaurantAdapter;
+    RestaurantMainPageAdapter mRestaurantAdapter;
 
     @Inject
-    RestaurantMainScreenPresenter mainPresenter;
+    RestaurantMainPagePresenter mainPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        mEmptyVIew = findViewById(R.id.empty_view);
         mListView = findViewById(R.id.list);
         mRecyclerView = findViewById(R.id.recycler_view);
         mList = new ArrayList<>();
@@ -38,9 +45,9 @@ public class MainActivity extends AppCompatActivity implements RestaurantMainScr
         final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
         mRecyclerView.setLayoutManager(gridLayoutManager);
 
-        DaggerRestaurantMainScreenComponent.builder()
+        DaggerRestaurantMainPageComponent.builder()
                 .netComponent(((DDLApp) getApplicationContext()).getNetComponent())
-                .restaurantMainScreenModule(new RestaurantMainScreenModule(this))
+                .restaurantMainPageModule(new RestaurantMainPageModule(this))
                 .build().inject(this);
 
         mainPresenter.loadRestaurants();
@@ -54,13 +61,15 @@ public class MainActivity extends AppCompatActivity implements RestaurantMainScr
 
         mAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, mList);
         mListView.setAdapter(mAdapter);
-        mRestaurantAdapter = new RestaurantAdapter(this, restaurants, this);
+        mRestaurantAdapter = new RestaurantMainPageAdapter(this, restaurants, this);
         mRecyclerView .setAdapter(mRestaurantAdapter);
     }
 
     @Override
     public void showError(String message) {
         Toast.makeText(getApplicationContext(), "Error" + message, Toast.LENGTH_SHORT).show();
+        mRecyclerView.setVisibility(View.INVISIBLE);
+        mEmptyVIew.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -71,5 +80,7 @@ public class MainActivity extends AppCompatActivity implements RestaurantMainScr
     @Override
     public void onClick(Restaurant restaurant) {
         Toast.makeText(getApplicationContext(), "Clicked on " + restaurant.getName(), Toast.LENGTH_SHORT).show();
+        mainPresenter.setNavigator(new RestaurantNavigator(this, RestaurantDetailPageActivity.class, restaurant));
+        mainPresenter.navigateToNewScreen();
     }
 }

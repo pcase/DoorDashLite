@@ -10,16 +10,16 @@ import dagger.Provides;
  */
 
 @Module
-public class RestaurantMainScreenModule {
-    private final RestaurantMainScreenContract.View mView;
+public class RestaurantMainPageModule {
+    private final RestaurantMainPageContract.View mView;
 
-    public RestaurantMainScreenModule(RestaurantMainScreenContract.View mView) {
+    public RestaurantMainPageModule(RestaurantMainPageContract.View mView) {
         this.mView = mView;
     }
 
     @Provides
     @CustomScope
-    RestaurantMainScreenContract.View providesRestaurantMainScreenContractView() {
+    RestaurantMainPageContract.View providesRestaurantMainScreenContractView() {
         return mView;
     }
 }

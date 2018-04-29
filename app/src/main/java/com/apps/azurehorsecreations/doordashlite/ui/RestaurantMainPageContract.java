@@ -7,7 +7,7 @@ import java.util.List;
  * Created by pattycase on 4/27/18.
  */
 
-public class RestaurantMainScreenContract {
+public class RestaurantMainPageContract {
     interface View {
         void showRestaurants(List<Restaurant> restaurants);
 

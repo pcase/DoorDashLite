@@ -10,7 +10,7 @@ import dagger.Component;
  */
 
 @CustomScope
-@Component(dependencies = NetComponent.class, modules = RestaurantMainScreenModule.class)
-public interface RestaurantMainScreenComponent {
-    void inject(MainActivity activity);
+@Component(dependencies = NetComponent.class, modules = RestaurantMainPageModule.class)
+public interface RestaurantMainPageComponent {
+    void inject(RestaurantMainPageActivity activity);
 }
