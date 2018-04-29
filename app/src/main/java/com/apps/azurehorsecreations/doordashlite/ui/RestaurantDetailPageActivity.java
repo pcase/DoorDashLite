@@ -24,6 +24,7 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
     TextView description;
     TextView averageRating;
     TextView yelpReviewCount;
+    Restaurant mRestaurant;
 
     ListView mListView;
     ArrayList<String> mList;
@@ -39,26 +40,23 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_restaurant_detail);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            mRestaurant = extras.getParcelable("RESTAURANT");
+        }
+
         mEmptyVIew = findViewById(R.id.empty_view);
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
         averageRating = findViewById(R.id.average_rating);
         yelpReviewCount =findViewById(R.id.yelp_review_count);
 
-//        mListView = findViewById(R.id.list);
-//        mRecyclerView = findViewById(R.id.recycler_view);
-//        mList = new ArrayList<>();
-//
-//        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
-//        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
-//        mRecyclerView.setLayoutManager(gridLayoutManager);
-
         DaggerRestaurantDetailPageComponent.builder()
                 .netComponent(((DDLApp) getApplicationContext()).getNetComponent())
                 .restaurantDetailPageModule(new RestaurantDetailPageModule(this))
                 .build().inject(this);
 
-        detailPresenter.loadRestaurantDetail();
+        detailPresenter.loadRestaurantDetail(mRestaurant.getId());
     }
 
     @Override

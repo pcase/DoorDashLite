@@ -32,10 +32,10 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
     }
 
     @Override
-    public void loadRestaurants() {
+    public void loadRestaurants(double latitude, double longitude) {
 
         // TODO Get the latitude and longitude
-        retrofit.create(RestaurantService.class).getRestaurantList(37.422740,-122.139956).subscribeOn(Schedulers.io())
+        retrofit.create(RestaurantService.class).getRestaurantList(latitude, longitude).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())
             .subscribe(new Observer<List<Restaurant>>() {

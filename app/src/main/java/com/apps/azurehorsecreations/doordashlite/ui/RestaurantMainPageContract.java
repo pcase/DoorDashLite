@@ -17,6 +17,6 @@ public class RestaurantMainPageContract {
     }
 
     interface Presenter {
-        void loadRestaurants();
+        void loadRestaurants(double latitude, double longitude);
     }
 }

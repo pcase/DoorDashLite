@@ -18,6 +18,6 @@ public class RestaurantDetailPageContract {
     }
 
     interface Presenter {
-        void loadRestaurantDetail();
+        void loadRestaurantDetail(int id);
     }
 }
