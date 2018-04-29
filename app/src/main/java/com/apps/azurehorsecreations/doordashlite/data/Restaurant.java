@@ -30,8 +30,8 @@ public class Restaurant implements Parcelable {
     @SerializedName("average_rating")
     public Double average_rating;
 
-    @SerializedName("yelp_review_count")
-    public Integer yelp_review_count;
+    @SerializedName("number_of_ratings")
+    public Integer number_of_ratings;
 
     private Restaurant(Parcel in) {
         id = in.readInt();
@@ -41,7 +41,7 @@ public class Restaurant implements Parcelable {
         status = in.readString();
         delivery_fee = in.readInt();
         average_rating = in.readDouble();
-        yelp_review_count = in.readInt();
+        number_of_ratings = in.readInt();
     }
 
     public Restaurant() {}
@@ -102,12 +102,12 @@ public class Restaurant implements Parcelable {
         this.average_rating = average_rating;
     }
 
-    public Integer getYelp_review_count() {
-        return yelp_review_count;
+    public Integer getNumber_of_ratings() {
+        return number_of_ratings;
     }
 
-    public void setYelp_review_count(Integer yelp_review_count) {
-        this.yelp_review_count = yelp_review_count;
+    public void setNumber_of_ratings(Integer yelp_review_count) {
+        this.number_of_ratings = yelp_review_count;
     }
 
     @Override
@@ -124,7 +124,7 @@ public class Restaurant implements Parcelable {
         dest.writeString(status);
         dest.writeInt(delivery_fee);
         dest.writeDouble(average_rating);
-        dest.writeInt(yelp_review_count);
+        dest.writeInt(number_of_ratings);
     }
 
     public static final Creator<Restaurant> CREATOR = new Creator<Restaurant>() {

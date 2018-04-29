@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import com.apps.azurehorsecreations.doordashlite.DDLApp;
 import com.apps.azurehorsecreations.doordashlite.R;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantMainPageAdapter;
+import com.apps.azurehorsecreations.doordashlite.util.Utilities;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -20,10 +23,12 @@ import javax.inject.Inject;
 public class RestaurantDetailPageActivity extends AppCompatActivity implements RestaurantDetailPageContract.View {
     private static final int NUMBER_OF_COLUMNS = 1;
     TextView mEmptyVIew;
+    ImageView coverImage;
     TextView name;
     TextView description;
     TextView averageRating;
-    TextView yelpReviewCount;
+    TextView deliveryFee;
+    TextView status;
     Restaurant mRestaurant;
 
     ListView mListView;
@@ -46,10 +51,12 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
         }
 
         mEmptyVIew = findViewById(R.id.empty_view);
+        coverImage = findViewById(R.id.cover_image);
         name = findViewById(R.id.name);
         description = findViewById(R.id.description);
         averageRating = findViewById(R.id.average_rating);
-        yelpReviewCount =findViewById(R.id.yelp_review_count);
+        deliveryFee = findViewById(R.id.delivery_fee);
+        status = findViewById(R.id.status);
 
         DaggerRestaurantDetailPageComponent.builder()
                 .netComponent(((DDLApp) getApplicationContext()).getNetComponent())
@@ -61,6 +68,10 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
 
     @Override
     public void showRestaurantDetail(Restaurant restaurant) {
+        if (restaurant.getCover_img_url() != null) {
+            Glide.with(this).load(restaurant.getCover_img_url()).into(coverImage);
+        }
+
         if (restaurant.getName() != null) {
             name.setText(restaurant.getName());
         }
@@ -69,13 +80,25 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
             description.setText(restaurant.getDescription());
         }
 
-        if (restaurant.getAverage_rating() != null) {
-            averageRating.setText(restaurant.getAverage_rating().toString());
+        if (restaurant.getAverage_rating() != null && restaurant.getNumber_of_ratings() != null ) {
+            averageRating.setText(getRatingText(restaurant.getAverage_rating().toString(), restaurant.getNumber_of_ratings().toString()));
         }
 
-        if (restaurant.getYelp_review_count() != null) {
-            yelpReviewCount.setText(restaurant.getYelp_review_count().toString());
+        if (restaurant.getDelivery_fee() != null) {
+            deliveryFee.setText(getResources().getString(R.string.delivery) + " " + Utilities.getFormattedAmount(restaurant.getDelivery_fee()));
         }
+
+        if (restaurant.getStatus() != null) {
+            status.setText(getResources().getString(R.string.status) + " " + restaurant.getStatus());
+        }
+    }
+
+    private String getRatingText(String rating, String reviewCount) {
+        StringBuilder ratingStringBuilder = new StringBuilder();
+        ratingStringBuilder.append(getResources().getString(R.string.average_rating));
+        ratingStringBuilder.append(" " + rating + " (" + reviewCount + " ");
+        ratingStringBuilder.append(getResources().getString(R.string.reviews) + ")");
+        return ratingStringBuilder.toString();
     }
 
     @Override

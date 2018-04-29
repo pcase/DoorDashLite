@@ -8,4 +8,8 @@
     <string name="Complete">Complete</string>
     <string name="Clicked_on">Clicked on </string>
     <string name="No_connection">No connection</string>
+    <string name="average_rating">Average Rating:</string>
+    <string name="reviews">reviews</string>
+    <string name="delivery">Delivery:</string>
+    <string name="status">Status:</string>
 </resources>
