@@ -1,6 +1,9 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
+import android.content.Context;
 import android.content.pm.PackageManager;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.apps.azurehorsecreations.doordashlite.DDLApp;
 import com.apps.azurehorsecreations.doordashlite.R;
+import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantMainPageAdapter;
 import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
@@ -31,7 +35,7 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
     private ArrayAdapter<String> mAdapter;
     private RestaurantMainPageAdapter mRestaurantAdapter;
     private GPSTracker gpsTracker;
-    private double[] latLng = {0,0};
+    private LatLng latLng;
 
     @Inject
     RestaurantMainPagePresenter mainPresenter;
@@ -41,33 +45,35 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        try {
-            if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ) {
-                ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+        if (isConnected()) {
+            try {
+                if (ContextCompat.checkSelfPermission(getApplicationContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, 101);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e){
-            e.printStackTrace();
+
+            latLng = getLocation();
+
+            mEmptyVIew = findViewById(R.id.empty_view);
+            mListView = findViewById(R.id.list);
+            mRecyclerView = findViewById(R.id.recycler_view);
+            mList = new ArrayList<>();
+
+            mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
+            final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
+            mRecyclerView.setLayoutManager(gridLayoutManager);
+
+            DaggerRestaurantMainPageComponent.builder()
+                    .netComponent(((DDLApp) getApplicationContext()).getNetComponent())
+                    .restaurantMainPageModule(new RestaurantMainPageModule(this))
+                    .build().inject(this);
+
+            mainPresenter.loadRestaurants(latLng);
+        } else {
+            showError(getResources().getString(R.string.No_connection));
         }
-
-        latLng = getLocation();
-
-        // TODO check network connectivity
-
-        mEmptyVIew = findViewById(R.id.empty_view);
-        mListView = findViewById(R.id.list);
-        mRecyclerView = findViewById(R.id.recycler_view);
-        mList = new ArrayList<>();
-
-        mRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(this));
-        final GridLayoutManager gridLayoutManager = new GridLayoutManager(this, NUMBER_OF_COLUMNS);
-        mRecyclerView.setLayoutManager(gridLayoutManager);
-
-        DaggerRestaurantMainPageComponent.builder()
-                .netComponent(((DDLApp) getApplicationContext()).getNetComponent())
-                .restaurantMainPageModule(new RestaurantMainPageModule(this))
-                .build().inject(this);
-
-        mainPresenter.loadRestaurants(latLng[0], latLng[1]);
     }
 
     @Override
@@ -84,31 +90,40 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
 
     @Override
     public void showError(String message) {
-        Toast.makeText(getApplicationContext(), "Error" + message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Error) + message, Toast.LENGTH_SHORT).show();
         mRecyclerView.setVisibility(View.INVISIBLE);
         mEmptyVIew.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showComplete() {
-        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Complete), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(Restaurant restaurant) {
-        Toast.makeText(getApplicationContext(), "Clicked on " + restaurant.getName(), Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Clicked_on)  + restaurant.getName(), Toast.LENGTH_SHORT).show();
         mainPresenter.setNavigator(new RestaurantNavigator(this, RestaurantDetailPageActivity.class, restaurant));
         mainPresenter.navigateToNewScreen();
     }
 
-    public double[] getLocation(){
-        double[] latLng = new double[2];
+    private boolean isConnected() {
+        ConnectivityManager cm =
+                (ConnectivityManager)getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+    }
+
+    private LatLng getLocation(){
+        LatLng latLng = new LatLng(0, 0);
         gpsTracker = new GPSTracker(RestaurantMainPageActivity.this);
         if(gpsTracker.canGetLocation()){
             double latitude = gpsTracker.getLatitude();
             double longitude = gpsTracker.getLongitude();
-            latLng[0] = latitude;
-            latLng[1] = longitude;
+            latLng.setLatitude(latitude);
+            latLng.setLongitude(longitude);
         } else {
             gpsTracker.showSettingsAlert();
         }

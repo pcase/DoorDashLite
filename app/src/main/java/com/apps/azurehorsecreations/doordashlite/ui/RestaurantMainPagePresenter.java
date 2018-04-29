@@ -1,5 +1,6 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
+import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
 
@@ -32,10 +33,9 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
     }
 
     @Override
-    public void loadRestaurants(double latitude, double longitude) {
+    public void loadRestaurants(LatLng latLng) {
 
-        // TODO Get the latitude and longitude
-        retrofit.create(RestaurantService.class).getRestaurantList(latitude, longitude).subscribeOn(Schedulers.io())
+        retrofit.create(RestaurantService.class).getRestaurantList(latLng.getLatitude(), latLng.getLongitude()).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())
             .subscribe(new Observer<List<Restaurant>>() {

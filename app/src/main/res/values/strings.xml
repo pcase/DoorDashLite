@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">DoorDashLite</string>
+    <string name="title">Discover</string>
+    <string name="lat">lat</string>
+    <string name="lng">lng</string>
+    <string name="RESTAURANT">RESTAURANT</string>
+    <string name="Error">Error</string>
+    <string name="Complete">Complete</string>
+    <string name="Clicked_on">Clicked on </string>
+    <string name="No_connection">No connection</string>
 </resources>

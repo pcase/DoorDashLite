@@ -42,7 +42,7 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            mRestaurant = extras.getParcelable("RESTAURANT");
+            mRestaurant = extras.getParcelable(getResources().getString(R.string.RESTAURANT));
         }
 
         mEmptyVIew = findViewById(R.id.empty_view);
@@ -80,12 +80,12 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
 
     @Override
     public void showError(String message) {
-        Toast.makeText(getApplicationContext(), "Error" + message, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Error) + message, Toast.LENGTH_SHORT).show();
         mEmptyVIew.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void showComplete() {
-        Toast.makeText(getApplicationContext(), "Complete", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Complete), Toast.LENGTH_SHORT).show();
     }
 }

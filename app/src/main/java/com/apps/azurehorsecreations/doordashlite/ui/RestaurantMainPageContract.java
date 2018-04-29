@@ -1,5 +1,6 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
+import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import java.util.List;
 
@@ -17,6 +18,6 @@ public class RestaurantMainPageContract {
     }
 
     interface Presenter {
-        void loadRestaurants(double latitude, double longitude);
+        void loadRestaurants(LatLng latLng);
     }
 }

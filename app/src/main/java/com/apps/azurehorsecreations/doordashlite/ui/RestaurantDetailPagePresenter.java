@@ -35,7 +35,6 @@ public class RestaurantDetailPagePresenter implements RestaurantDetailPageContra
     @Override
     public void loadRestaurantDetail(int id) {
 
-        // TODO Get the restaurant id
         retrofit.create(RestaurantService.class).getRestaurantDetail(id).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())
