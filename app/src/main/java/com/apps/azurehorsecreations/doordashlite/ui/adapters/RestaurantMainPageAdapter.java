@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantMainPageAdapter
  */
 
 public class RestaurantMainPageAdapter extends RecyclerView.Adapter<RestaurantMainPageAdapter.ViewHolder> {

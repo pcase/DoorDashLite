@@ -3,7 +3,6 @@ package com.apps.azurehorsecreations.doordashlite;
 
 import android.os.Build;
 
-import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.RestaurantMainPageActivity;
 import com.apps.azurehorsecreations.doordashlite.ui.RestaurantMainPageContract;
@@ -16,9 +15,7 @@ import com.google.gson.GsonBuilder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
@@ -31,8 +28,6 @@ import io.reactivex.subscribers.TestSubscriber;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
-
-import static org.mockito.Mockito.when;
 
 /**
  * Created by pattycase on 4/29/18.

@@ -4,7 +4,8 @@ import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.idling.CountingIdlingResource;
 
 /**
- * Created by pattycase on 4/29/18.
+ * EspressoIdlingResource
+ * from https://adityaladwa.wordpress.com/2016/08/18/testing-android-mvp/
  */
 
 public class EspressoIdlingResource {

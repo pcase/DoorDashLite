@@ -18,7 +18,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantDetailPagePresenter
  */
 
 public class RestaurantDetailPagePresenter implements RestaurantDetailPageContract.Presenter {
@@ -32,6 +32,10 @@ public class RestaurantDetailPagePresenter implements RestaurantDetailPageContra
         this.mView = mView;
     }
 
+    /*
+     * loadRestaurantDetail
+     * Request the restaurant information and send it back to the view
+     */
     @Override
     public void loadRestaurantDetail(int id) {
 

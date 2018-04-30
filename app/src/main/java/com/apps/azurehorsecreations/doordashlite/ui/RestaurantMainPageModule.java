@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantMainPageModule
  */
 
 @Module

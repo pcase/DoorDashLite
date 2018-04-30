@@ -1,14 +1,13 @@
 package com.apps.azurehorsecreations.doordashlite;
 
 import android.app.Application;
-
 import com.apps.azurehorsecreations.doordashlite.di.component.DaggerNetComponent;
 import com.apps.azurehorsecreations.doordashlite.di.component.NetComponent;
 import com.apps.azurehorsecreations.doordashlite.di.module.AppModule;
 import com.apps.azurehorsecreations.doordashlite.di.module.NetModule;
 
 /**
- * Created by pattycase on 4/27/18.
+ * DDLApp
  */
 
 public class DDLApp extends Application {

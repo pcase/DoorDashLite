@@ -15,11 +15,13 @@ import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantMainPageAdapter;
 import com.apps.azurehorsecreations.doordashlite.util.Utilities;
 import com.bumptech.glide.Glide;
-
 import java.util.ArrayList;
-
 import javax.inject.Inject;
 
+/**
+ * RestaurantDetailPageActivity
+ * Displays detailed information for a restaurant
+ */
 public class RestaurantDetailPageActivity extends AppCompatActivity implements RestaurantDetailPageContract.View {
     private static final int NUMBER_OF_COLUMNS = 1;
     TextView mEmptyVIew;
@@ -66,6 +68,10 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
         detailPresenter.loadRestaurantDetail(mRestaurant.getId());
     }
 
+    /*
+     * showRestaurantDetail
+     * Display the restaurant detail information provided by the presenter
+     */
     @Override
     public void showRestaurantDetail(Restaurant restaurant) {
         if (restaurant.getCover_img_url() != null) {
@@ -93,6 +99,10 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
         }
     }
 
+    /*
+     * getRatingText
+     * Return a string for display rating information
+     */
     private String getRatingText(String rating, String reviewCount) {
         StringBuilder ratingStringBuilder = new StringBuilder();
         ratingStringBuilder.append(getResources().getString(R.string.average_rating));
@@ -101,14 +111,20 @@ public class RestaurantDetailPageActivity extends AppCompatActivity implements R
         return ratingStringBuilder.toString();
     }
 
+    /*
+     * showError
+     * Display an error message and an empty view
+     */
     @Override
     public void showError(String message) {
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.Error) + message, Toast.LENGTH_SHORT).show();
         mEmptyVIew.setVisibility(View.VISIBLE);
     }
 
+    /*
+     * showComplete
+     */
     @Override
     public void showComplete() {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Complete), Toast.LENGTH_SHORT).show();
     }
 }

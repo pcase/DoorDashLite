@@ -2,11 +2,10 @@ package com.apps.azurehorsecreations.doordashlite.ui.navigation;
 
 import android.content.Context;
 import android.content.Intent;
-
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantNavigator
  */
 
 public class RestaurantNavigator {

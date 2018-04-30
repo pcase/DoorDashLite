@@ -2,15 +2,11 @@ package com.apps.azurehorsecreations.doordashlite;
 
 import android.os.Build;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.action.ViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
-import static android.support.test.espresso.Espresso.onView;
 import android.support.test.rule.ActivityTestRule;
 import android.support.v7.widget.RecyclerView;
-import android.widget.TextView;
 
-import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.RestaurantMainPageActivity;
 import com.apps.azurehorsecreations.doordashlite.ui.RestaurantMainPagePresenter;
@@ -26,8 +22,6 @@ import org.robolectric.annotation.Config;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.subscribers.TestSubscriber;
 
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static junit.framework.Assert.assertEquals;

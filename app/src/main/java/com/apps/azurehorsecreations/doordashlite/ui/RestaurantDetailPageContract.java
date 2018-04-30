@@ -1,11 +1,10 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
-
 import java.util.List;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantDetailPageContract
  */
 
 public class RestaurantDetailPageContract {

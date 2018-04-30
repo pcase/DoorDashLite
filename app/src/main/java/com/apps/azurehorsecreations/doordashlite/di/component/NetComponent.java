@@ -1,7 +1,7 @@
 package com.apps.azurehorsecreations.doordashlite.di.component;
 
 /**
- * Created by pattycase on 4/27/18.
+ * NetComponent
  */
 
 import com.apps.azurehorsecreations.doordashlite.di.module.AppModule;

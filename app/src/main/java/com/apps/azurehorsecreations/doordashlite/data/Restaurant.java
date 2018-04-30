@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Created by pattycase on 4/27/18.
+ * Restaurant
  */
 
 public class Restaurant implements Parcelable {

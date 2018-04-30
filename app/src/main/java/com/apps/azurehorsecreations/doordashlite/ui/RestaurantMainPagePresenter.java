@@ -1,6 +1,7 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
-import com.apps.azurehorsecreations.doordashlite.data.LatLng;
+import android.location.Location;
+
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
 
@@ -18,7 +19,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Query;
 
 /**
- * Created by pattycase on 4/27/18.
+ * RestaurantMainPagePresenter
  */
 
 public class RestaurantMainPagePresenter implements RestaurantMainPageContract.Presenter {
@@ -32,10 +33,16 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
         this.mView = mView;
     }
 
+    /*
+     * loadRestaurants
+     * Request the restaurant list and send it back to the view
+     */
     @Override
-    public void loadRestaurants(LatLng latLng) {
+    public void loadRestaurants(Location location) {
 
-        retrofit.create(RestaurantService.class).getRestaurantList(latLng.getLatitude(), latLng.getLongitude()).subscribeOn(Schedulers.io())
+        mView.showProgress();
+
+        retrofit.create(RestaurantService.class).getRestaurantList(location.getLatitude(), location.getLongitude()).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())
             .subscribe(new Observer<List<Restaurant>>() {
@@ -46,16 +53,19 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
 
             @Override
             public void onComplete () {
+                mView.hideProgress();
                 mView.showComplete();
             }
 
             @Override
             public void onError (Throwable e){
+                mView.hideProgress();
                 mView.showError(e.getMessage());
             }
 
             @Override
             public void onNext (List<Restaurant> restaurants) {
+                mView.hideProgress();
                 mView.showRestaurants(restaurants);
             }
         });

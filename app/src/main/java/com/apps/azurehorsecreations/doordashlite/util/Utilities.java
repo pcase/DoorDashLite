@@ -1,15 +1,16 @@
 package com.apps.azurehorsecreations.doordashlite.util;
 
 /**
- * Created by pattycase on 4/28/18.
+ * Utilities
  */
 
 public class Utilities {
     /**
+     * getFormattedAmount
      * From https://www.developerfeed.com/how-to-convert-amount-in-cents-to-dollars-with-formatting/
      *
      * @param amount
-     * @return
+     * @return String
      */
     public static String getFormattedAmount(int amount) {
         int cents = amount % 100;
