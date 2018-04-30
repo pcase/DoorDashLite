@@ -259,6 +259,7 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
                             updateUI(loc);
                     }
                 } else {
+                    loc = new Location("");
                     loc.setLatitude(0);
                     loc.setLongitude(0);
                     updateUI(loc);
@@ -332,38 +333,40 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
     @TargetApi(Build.VERSION_CODES.M)
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        permissionsRejected.clear();
-        switch (requestCode) {
-            case ALL_PERMISSIONS_RESULT:
-                Log.d(TAG, "onRequestPermissionsResult");
-                for (String perms : permissionsToRequest) {
-                    if (!hasPermission(perms)) {
-                        permissionsRejected.add(perms);
-                    }
-                }
-
-                if (permissionsRejected.size() > 0) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                        if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
-                            showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                requestPermissions(permissionsRejected.toArray(
-                                                        new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
-                                            }
-                                        }
-                                    });
-                            return;
+        if (permissions != null && permissionsToRequest != null) {
+            permissionsRejected.clear();
+            switch (requestCode) {
+                case ALL_PERMISSIONS_RESULT:
+                    Log.d(TAG, "onRequestPermissionsResult");
+                    for (String perms : permissionsToRequest) {
+                        if (!hasPermission(perms)) {
+                            permissionsRejected.add(perms);
                         }
                     }
-                } else {
-                    Log.d(TAG, "No rejected permissions.");
-                    canGetLocation = true;
-                    getLocation();
-                }
-                break;
+
+                    if (permissionsRejected.size() > 0) {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            if (shouldShowRequestPermissionRationale(permissionsRejected.get(0))) {
+                                showMessageOKCancel("These permissions are mandatory for the application. Please allow access.",
+                                        new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                    requestPermissions(permissionsRejected.toArray(
+                                                            new String[permissionsRejected.size()]), ALL_PERMISSIONS_RESULT);
+                                                }
+                                            }
+                                        });
+                                return;
+                            }
+                        }
+                    } else {
+                        Log.d(TAG, "No rejected permissions.");
+                        canGetLocation = true;
+                        getLocation();
+                    }
+                    break;
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 package com.apps.azurehorsecreations.doordashlite;
 
 
+import android.location.Location;
 import android.os.Build;
 
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
@@ -41,15 +42,16 @@ public class RestaurantMainPagePresenterTest {
     private RestaurantMainPageContract.View mockView;
     private RestaurantMainPageActivity activity;
     Retrofit retrofit;
-    LatLng latLng;
     List<Restaurant> restaurantList;
+    Location location;
     Gson gson;
 
     @Before
     public void setup() {
         gson = createGson();
         retrofit = createRetrofit();
-        latLng = new LatLng(37.422740, -122.139956);
+        location.setLatitude(37.422740);
+        location.setLongitude(-122.139956);
         restaurantList = createRestaurantList();
 
         // Creating the mocks
@@ -65,10 +67,7 @@ public class RestaurantMainPagePresenterTest {
 
     @Test
     public void verifyPresenterCalledView() {
-        mPresenter.loadRestaurants(latLng);
-//        Mockito.verify(mockView, Mockito.only()).showRestaurants(restaurantList);
-        TestSubscriber<Restaurant> testSubscriber = new TestSubscriber<>();
-
+        mPresenter.loadRestaurants(location);
     }
 
     @Test
