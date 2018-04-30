@@ -23,6 +23,8 @@ import retrofit2.http.Query;
  */
 
 public class RestaurantMainPagePresenter implements RestaurantMainPageContract.Presenter {
+    private static final int OFFSET = 0;
+    private static final int LIMIT = 50;
     public Retrofit retrofit;
     RestaurantMainPageContract.View mView;
     RestaurantNavigator mNavigator;
@@ -42,7 +44,7 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
 
         mView.showProgress();
 
-        retrofit.create(RestaurantService.class).getRestaurantList(location.getLatitude(), location.getLongitude()).subscribeOn(Schedulers.io())
+        retrofit.create(RestaurantService.class).getRestaurantList(OFFSET, LIMIT, location.getLatitude(), location.getLongitude()).subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .unsubscribeOn(Schedulers.io())
             .subscribe(new Observer<List<Restaurant>>() {
@@ -82,6 +84,8 @@ public class RestaurantMainPagePresenter implements RestaurantMainPageContract.P
     public interface RestaurantService {
         @GET("/v2/restaurant/")
         Observable<List<Restaurant>> getRestaurantList(
+                @Query("offset") int offset,
+                @Query("limit") int limit,
                 @Query("lat") double lat,
                 @Query("lng") double lng
         );

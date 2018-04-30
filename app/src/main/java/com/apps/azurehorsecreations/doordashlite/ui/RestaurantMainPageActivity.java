@@ -50,6 +50,8 @@ import javax.inject.Inject;
 
 public class RestaurantMainPageActivity extends AppCompatActivity implements RestaurantMainPageContract.View, RestaurantMainPageAdapter.OnItemClickListener, LocationListener {
     private final static String TAG = "RestaurantMainPageAct";
+    private final static double DOORDASH_LATITUDE = 37.422740;
+    private final static double DOORDASH_LONGITUDE = -122.139956;
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10;
     private static final long MIN_TIME_BW_UPDATES = 1000 * 60 * 1;
     private final static int ALL_PERMISSIONS_RESULT = 101;
@@ -260,8 +262,8 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
                     }
                 } else {
                     loc = new Location("");
-                    loc.setLatitude(0);
-                    loc.setLongitude(0);
+                    loc.setLatitude(DOORDASH_LATITUDE);
+                    loc.setLongitude(DOORDASH_LONGITUDE);
                     updateUI(loc);
                 }
             } else {
