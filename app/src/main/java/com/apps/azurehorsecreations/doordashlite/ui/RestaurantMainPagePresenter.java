@@ -22,7 +22,7 @@ import retrofit2.http.Query;
  */
 
 public class RestaurantMainPagePresenter implements RestaurantMainPageContract.Presenter {
-    Retrofit retrofit;
+    public Retrofit retrofit;
     RestaurantMainPageContract.View mView;
     RestaurantNavigator mNavigator;
 

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.support.annotation.VisibleForTesting;
+import android.support.test.espresso.IdlingResource;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +23,7 @@ import com.apps.azurehorsecreations.doordashlite.data.LatLng;
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.adapters.RestaurantMainPageAdapter;
 import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
+import com.apps.azurehorsecreations.doordashlite.util.EspressoIdlingResource;
 import com.apps.azurehorsecreations.doordashlite.util.GPSTracker;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,9 +73,12 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
                     .restaurantMainPageModule(new RestaurantMainPageModule(this))
                     .build().inject(this);
 
+            //Increment the counter before making a network request
+            EspressoIdlingResource.increment();
+
             mainPresenter.loadRestaurants(latLng);
         } else {
-            showError(getResources().getString(R.string.No_connection));
+            Toast.makeText(getApplicationContext(), getResources().getString(R.string.No_connection), Toast.LENGTH_LONG).show();
         }
     }
 
@@ -86,6 +92,9 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
         mListView.setAdapter(mAdapter);
         mRestaurantAdapter = new RestaurantMainPageAdapter(this, restaurants, this);
         mRecyclerView .setAdapter(mRestaurantAdapter);
+
+        //Decrement after loading the posts
+        EspressoIdlingResource.decrement();
     }
 
     @Override
@@ -93,16 +102,17 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
         Toast.makeText(getApplicationContext(), getResources().getString(R.string.Error) + message, Toast.LENGTH_SHORT).show();
         mRecyclerView.setVisibility(View.INVISIBLE);
         mEmptyVIew.setVisibility(View.VISIBLE);
+
+        // If there is no network connection we get an error and decrement the counter because the call has finished
+        EspressoIdlingResource.decrement();
     }
 
     @Override
     public void showComplete() {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Complete), Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onClick(Restaurant restaurant) {
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.Clicked_on)  + restaurant.getName(), Toast.LENGTH_SHORT).show();
         mainPresenter.setNavigator(new RestaurantNavigator(this, RestaurantDetailPageActivity.class, restaurant));
         mainPresenter.navigateToNewScreen();
     }
@@ -128,5 +138,10 @@ public class RestaurantMainPageActivity extends AppCompatActivity implements Res
             gpsTracker.showSettingsAlert();
         }
         return latLng;
+    }
+
+    @VisibleForTesting
+    public IdlingResource getCountingIdlingResource() {
+        return EspressoIdlingResource.getIdlingResource();
     }
 }

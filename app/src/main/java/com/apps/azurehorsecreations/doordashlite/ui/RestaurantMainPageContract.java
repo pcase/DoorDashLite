@@ -9,7 +9,7 @@ import java.util.List;
  */
 
 public class RestaurantMainPageContract {
-    interface View {
+    public interface View {
         void showRestaurants(List<Restaurant> restaurants);
 
         void showError(String message);
@@ -17,7 +17,7 @@ public class RestaurantMainPageContract {
         void showComplete();
     }
 
-    interface Presenter {
+    public interface Presenter {
         void loadRestaurants(LatLng latLng);
     }
 }

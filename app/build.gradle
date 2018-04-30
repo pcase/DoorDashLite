@@ -37,9 +37,9 @@ android {
         checkReleaseBuilds false
     }
 
-    testOptions.unitTests.all {
-        testLogging {
-            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
         }
     }
 }
@@ -103,6 +103,7 @@ dependencies {
 
     testImplementation "org.mockito:mockito-core:$rootProject.mockitoVersion"
     testImplementation "org.hamcrest:hamcrest-all:$rootProject.hamcrestVersion"
+    testImplementation "org.robolectric:robolectric:3.8"
 
     // Developer tools
     implementation "com.facebook.stetho:stetho:$rootProject.stethoVersion"
