@@ -5,7 +5,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * RestaurantDetailPageModule
+ * RestaurantDetailPageModule provides the View to the Presenter
  */
 
 @Module

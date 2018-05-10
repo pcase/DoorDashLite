@@ -7,7 +7,8 @@ import com.apps.azurehorsecreations.doordashlite.di.module.AppModule;
 import com.apps.azurehorsecreations.doordashlite.di.module.NetModule;
 
 /**
- * DDLApp
+ * DDLApp overrides the default Application class.
+ * It builds and returns NetComponent.
  */
 
 public class DDLApp extends Application {

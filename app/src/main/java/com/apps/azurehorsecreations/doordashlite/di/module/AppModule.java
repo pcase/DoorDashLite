@@ -6,7 +6,7 @@ import dagger.Module;
 import dagger.Provides;
 
 /**
- * AppModule
+ * AppModule provides the Applcation context to other modules
  */
 
 @Module

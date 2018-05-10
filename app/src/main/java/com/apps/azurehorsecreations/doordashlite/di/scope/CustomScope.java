@@ -6,7 +6,8 @@ import java.lang.annotation.RetentionPolicy;
 import javax.inject.Scope;
 
 /**
- * CustomScope
+ * CustomScope is needed because two dependent components cannot share the same scope.
+ * Its used by MainScreenComponent and MainScreenModule.
  */
 
 @Documented

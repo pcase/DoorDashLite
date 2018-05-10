@@ -6,7 +6,7 @@ import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import java.util.List;
 
 /**
- * RestaurantMainPageContract
+ * RestaurantMainPageContract Interface specifies contract between View and Presenter
  */
 
 public class RestaurantMainPageContract {

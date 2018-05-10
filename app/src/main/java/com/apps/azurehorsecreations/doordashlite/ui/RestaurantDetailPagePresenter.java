@@ -2,11 +2,7 @@ package com.apps.azurehorsecreations.doordashlite.ui;
 
 import com.apps.azurehorsecreations.doordashlite.data.Restaurant;
 import com.apps.azurehorsecreations.doordashlite.ui.navigation.RestaurantNavigator;
-
-import java.util.List;
-
 import javax.inject.Inject;
-
 import io.reactivex.Observable;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -18,7 +14,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
- * RestaurantDetailPagePresenter
+ * RestaurantDetailPagePresenter handles the network calls to get the information about a
+ * restaurant and calls the view's methods with the results.
  */
 
 public class RestaurantDetailPagePresenter implements RestaurantDetailPageContract.Presenter {

@@ -1,7 +1,8 @@
 package com.apps.azurehorsecreations.doordashlite.di.component;
 
 /**
- * NetComponent
+ * NetComponent Interface has AppModule and NotModule as its modules.
+ * It has Retrofit as a dependency.
  */
 
 import com.apps.azurehorsecreations.doordashlite.di.module.AppModule;

@@ -5,7 +5,7 @@ import android.os.Parcelable;
 import com.google.gson.annotations.SerializedName;
 
 /**
- * Restaurant
+ * Restaurant is a POJO class for the restaurant information
  */
 
 public class Restaurant implements Parcelable {

@@ -5,7 +5,8 @@ import com.apps.azurehorsecreations.doordashlite.di.scope.CustomScope;
 import dagger.Component;
 
 /**
- * RestaurantDetailPageComponent
+ * RestaurantDetailPageComponent is the bridge between RestaurantDetailPageModule and
+ * RestaurantDetailPageActivity
  */
 
 @CustomScope

@@ -1,12 +1,11 @@
 package com.apps.azurehorsecreations.doordashlite.ui;
 
 import com.apps.azurehorsecreations.doordashlite.di.scope.CustomScope;
-
 import dagger.Module;
 import dagger.Provides;
 
 /**
- * RestaurantMainPageModule
+ * RestaurantMainPageModule provides the View to the Presenter
  */
 
 @Module
