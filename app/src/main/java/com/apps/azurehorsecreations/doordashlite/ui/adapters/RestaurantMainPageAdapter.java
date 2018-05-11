@@ -65,12 +65,12 @@ public class RestaurantMainPageAdapter extends RecyclerView.Adapter<RestaurantMa
         holder.favoriteButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 int id = mRestaurantList.get(position).getId();
-                if (isFavorite(id)) {
-                    holder.favoriteButton.setText("make unfavorite");
-                    saveFavoriteInPrefs(id, "unfavorite");
-                } else {
-                    holder.favoriteButton.setText("make favorite");
-                    saveFavoriteInPrefs(id, "favorite");
+                if (holder.favoriteButton.getText().equals("Unfavorite Me") && isFavorite(id)) {
+                    holder.favoriteButton.setText("Favorite Me");
+                    saveFavoriteInPrefs(id, "no");
+                } else if (holder.favoriteButton.getText().equals("Favorite Me") && !isFavorite(id)){
+                    holder.favoriteButton.setText("UnFavorite Me");
+                    saveFavoriteInPrefs(id, "yes");
                 }
             }
         });
@@ -115,18 +115,20 @@ public class RestaurantMainPageAdapter extends RecyclerView.Adapter<RestaurantMa
 
     private void saveFavoriteInPrefs(int id, String favorite) {
         editor.putString(String.valueOf(id), favorite);
-        editor.commit();
+        editor.apply();
     }
 
     private String getButtonText(int id) {
-        String buttonText = "make favorite";
+        String buttonText = "Favorite Me";
         String favorite = pref.getString(String.valueOf(id), "");
         if (favorite != "") {
-            if (favorite.equals("favorite")) {
-                buttonText =  "make unfavorite";
+            if (favorite.equals("yes")) {
+                buttonText =  "Unfavorite Me";
             } else {
-                buttonText = "make favorite";
+                buttonText = "Favorite Me";
             }
+        } else {
+            editor.putString(String.valueOf(id), "no");
         }
         return buttonText;
     }
@@ -135,7 +137,7 @@ public class RestaurantMainPageAdapter extends RecyclerView.Adapter<RestaurantMa
         boolean isFavorite = false;
         String favorite = pref.getString(String.valueOf(id), "");
         if (favorite != "") {
-            if (favorite.equals("favorite")) {
+            if (favorite.equals("yes")) {
                 isFavorite = true;
             } else {
                 isFavorite = false;
